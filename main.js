@@ -1,20 +1,28 @@
 // modules and factories
 const Gameboard = (() => {
-  const _gameboard = [[], [], []];
-  return {};
+  let _state = [[], [], []];
+  const update_board = (row, column, symbol) => {
+    _state[row][column] = symbol;
+  };
+  return { _state, update_board };
 })();
 
 const displayController = (() => {
   const _gameGrid = document.getElementById("game_grid");
   const initalize_display = () => {
-    for (let i = 0; i < 9; i++) {
-      const cell = document.createElement("div");
-      cell.dataset.index = i;
-      _gameGrid.appendChild(cell);
+    for (let i = 0; i < 3; i++) {
+      for (let j = 0; j < 3; j++) {
+        const cell = document.createElement("div");
+        cell.dataset.row = i;
+        cell.dataset.column = j;
+        _gameGrid.appendChild(cell);
+      }
     }
   };
-  const update_display = (index, symbol) => {
-    cellToUpdate = _gameGrid.children[index];
+  const update_display = (row, column, symbol) => {
+    cellToUpdate = _gameGrid.querySelector(
+      `[data-row="${row}"][data-column="${column}"]`
+    );
     cellToUpdate.textContent = symbol;
   };
 
