@@ -69,6 +69,7 @@ const gameBoard = (() => {
 
 const displayController = (() => {
   const _gameGrid = document.querySelector(".game_grid");
+  const _selectionForm = document.querySelector("form");
   const initalizeDisplay = () => {
     for (let i = 0; i < 3; i++) {
       for (let j = 0; j < 3; j++) {
@@ -91,6 +92,19 @@ const displayController = (() => {
   };
   const toggleMode = () => {
     const inputDivs = document.querySelectorAll(".input_div");
+    const pvp_inputs = document
+      .querySelector(".pvp_selection")
+      .querySelectorAll("input");
+    const pvc_input = document
+      .querySelector(".pvc_selection")
+      .querySelector("input");
+    if (!pvc_input.required) {
+      pvc_input.required = true;
+      [...pvp_inputs].map((input) => (input.required = false));
+    } else {
+      pvc_input.required = false;
+      [...pvp_inputs].map((input) => (input.required = true));
+    }
     [...inputDivs].map((div) => div.classList.toggle("hidden"));
     const nameHeader = document.getElementById("name");
     nameHeader.textContent === "Player Names:"
@@ -99,8 +113,16 @@ const displayController = (() => {
   };
 
   const startGame = () => {
-    const selectionForm = document.querySelector("form");
-    [selectionForm, _gameGrid].map((node) => node.classList.toggle("hidden"));
+    [_selectionForm, _gameGrid].map((node) => node.classList.toggle("hidden"));
+  };
+
+  const getSelectionresult = () => {
+    const mode = _selectionForm.querySelector(".active").textContent;
+    const inputFields = _selectionForm.querySelectorAll("input");
+    const playerNames = [...inputFields]
+      .map((input) => input.value)
+      .filter((name) => name !== "");
+    return { mode, playerNames };
   };
 
   return {
@@ -109,21 +131,18 @@ const displayController = (() => {
     toggleActiveButton,
     toggleMode,
     startGame,
+    getSelectionresult,
   };
 })();
 
 const player = (name, symbol) => {
   const playTurn = (row, column) => {
-    if (gameBoard.getCell(row, column) === undefined) {
-      gameBoard.updateBoard(row, column, symbol);
-      displayController.updateDisplay(row, column, symbol);
-      return this;
-    } else {
-      throw new Error("cell is full");
-    }
+    gameBoard.updateBoard(row, column, symbol);
+    displayController.updateDisplay(row, column, symbol);
   };
   return { name, symbol, playTurn };
 };
 
 // global code
 displayController.initalizeDisplay();
+
