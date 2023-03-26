@@ -1,3 +1,10 @@
+html {
+  box-sizing: border-box;
+}
+*, *:before, *:after {
+  box-sizing: inherit;
+}
+
 main {
   display: flex;
   flex-direction: column;
@@ -7,9 +14,10 @@ main {
 
 form {
   padding: 12px;
-  width: 50%;
+  padding-right: 100px;
+  width: 30%;
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-columns: 1fr 2fr;
   gap: 15px;
   justify-content: center;
 }
@@ -27,11 +35,11 @@ form {
   border: 1px solid black;
   display: none;
   align-items: center;
-  justify-content: center;
+  justify-content: stretch;
 }
 
 form input {
-  width: 40%;
+  /* width: 40%; */
 }
 
 #pvc_selection {
@@ -43,7 +51,6 @@ form input {
 #pvp_selection {
   display: flex;
   flex-direction: column;
-  grid-column: span 2;
 }
 
 form > h2 {
@@ -54,15 +61,22 @@ form > h2 {
   align-self: center;
 }
 
-form > button {
+form  button {
+  width: 100%;
   border: none;
   padding: 8px;
   border-radius: 6px;
-  width: 40%;
   justify-self: center
 }
 
 button#active {
   color: white;
   background-color: black;
+}
+
+#mode_buttons {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  gap: 10px;
 }
