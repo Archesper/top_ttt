@@ -1,5 +1,7 @@
 // modules and factories
 const gameBoard = (() => {
+  let currentPlayer;
+  let _players = [];
   let _state = [[], [], []];
   const _isFull = () => {
     const fullCellCount = _state.reduce(
@@ -47,6 +49,9 @@ const gameBoard = (() => {
         _state[0][2] !== undefined)
     );
   };
+  const getCell = (row, column) => {
+    return _state[row][column];
+  };
   const updateBoard = (row, column, symbol) => {
     _state[row][column] = symbol;
   };
@@ -58,6 +63,7 @@ const gameBoard = (() => {
   return {
     updateBoard,
     isOver,
+    getCell,
   };
 })();
 
@@ -82,6 +88,19 @@ const displayController = (() => {
 
   return { initalizeDisplay, updateDisplay };
 })();
+
+const player = (name, symbol) => {
+  const playTurn = (row, column) => {
+    if (gameBoard.getCell(row, column) === undefined) {
+      gameBoard.updateBoard(row, column, symbol);
+      displayController.updateDisplay(row, column, symbol);
+      return this;
+    } else {
+      throw new Error("cell is full");
+    }
+  };
+  return { name, symbol, playTurn };
+};
 
 // global code
 displayController.initalizeDisplay();
