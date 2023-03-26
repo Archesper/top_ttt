@@ -14,21 +14,22 @@
       <form class="game_selection">
         <h2 id="mode">Game Mode:</h2>
         <div id="mode_buttons">
-          <button id="active">PvP</button>
+          <button class="active">PvP</button>
           <button>PvAI</button>
         </div>
-        <h2 id=""names>Player Names:</h2>
-        <div id="pvp_selection">
+        <h2 id="name">Player Names:</h2>
+        <div class="pvp_selection input_div">
           <label for="player1">Player 1 </label>
           <input type="text" id="player1" />
           <label for="player2">Player 2 </label>
           <input type="text" id="player2" />
         </div>
-        <div id="pvc_selection">
+        <div class="hidden pvc_selection input_div" >
           <input type="text" id="player" />
         </div>
+        <button id="start">start!</button>
       </form>
-      <div id="game_grid"></div>
+      <div class="hidden game_grid" id="game_grid"></div>
     </main>
   </body>
 </html>

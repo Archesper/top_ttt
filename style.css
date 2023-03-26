@@ -1,20 +1,27 @@
 html {
   box-sizing: border-box;
+  font-family: Lato, sans-serif;
 }
 *, *:before, *:after {
   box-sizing: inherit;
+  font-family: inherit;
+}
+
+body {
+  height: 100vh;
 }
 
 main {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 50px;
+  justify-content: center;
+  height: 100%;
+  gap: 10px;
 }
 
 form {
   padding: 12px;
-  padding-right: 100px;
   width: 30%;
   display: grid;
   grid-template-columns: 1fr 2fr;
@@ -22,7 +29,11 @@ form {
   justify-content: center;
 }
 
-#game_grid {
+form input {
+  width: 100%;
+}
+
+.game_grid {
   display: grid;
   gap: 15px;
   grid-template: 1fr 1fr 1fr / 1fr 1fr 1fr;
@@ -31,26 +42,27 @@ form {
   width: 50%;
 }
 
-#game_grid div {
+.game_grid div {
   border: 1px solid black;
-  display: none;
   align-items: center;
   justify-content: stretch;
 }
 
-form input {
-  /* width: 40%; */
+.input_div {
+  width: 100%;
 }
 
-#pvc_selection {
-  display: none;
-  flex-direction: column;
-  grid-column: span 2;
+.pvc_selection {
+  display: flex;
 }
 
-#pvp_selection {
+.pvp_selection {
   display: flex;
   flex-direction: column;
+}
+
+.hidden {
+  display: none;
 }
 
 form > h2 {
@@ -69,7 +81,7 @@ form  button {
   justify-self: center
 }
 
-button#active {
+button.active {
   color: white;
   background-color: black;
 }
@@ -79,4 +91,13 @@ button#active {
   width: 100%;
   justify-content: space-between;
   gap: 10px;
+}
+
+#start {
+  grid-column: 2;
+  width: 50%;
+  border: 1px solid white;
+  border-radius: 6px;
+  padding: 8px;
+  font-size: 1.1rem;
 }

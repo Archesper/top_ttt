@@ -68,7 +68,7 @@ const gameBoard = (() => {
 })();
 
 const displayController = (() => {
-  const _gameGrid = document.getElementById("game_grid");
+  const _gameGrid = document.querySelector(".game_grid");
   const initalizeDisplay = () => {
     for (let i = 0; i < 3; i++) {
       for (let j = 0; j < 3; j++) {
@@ -85,8 +85,31 @@ const displayController = (() => {
     );
     cellToUpdate.textContent = symbol;
   };
+  const toggleActiveButton = () => {
+    const buttons = document.getElementById("mode_buttons").children;
+    [...buttons].map((button) => button.classList.toggle("active"));
+  };
+  const toggleMode = () => {
+    const inputDivs = document.querySelectorAll(".input_div");
+    [...inputDivs].map((div) => div.classList.toggle("hidden"));
+    const nameHeader = document.getElementById("name");
+    nameHeader.textContent === "Player Names:"
+      ? (nameHeader.textContent = "Player Name:")
+      : null;
+  };
 
-  return { initalizeDisplay, updateDisplay };
+  const startGame = () => {
+    const selectionForm = document.querySelector("form");
+    [selectionForm, _gameGrid].map((node) => node.classList.toggle("hidden"));
+  };
+
+  return {
+    initalizeDisplay,
+    updateDisplay,
+    toggleActiveButton,
+    toggleMode,
+    startGame,
+  };
 })();
 
 const player = (name, symbol) => {
