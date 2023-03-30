@@ -17,7 +17,7 @@ main {
   align-items: center;
   justify-content: center;
   height: 100%;
-  gap: 10px;
+  gap: 20px;
 }
 
 form {
@@ -100,4 +100,16 @@ button.active {
   border-radius: 6px;
   padding: 8px;
   font-size: 1.1rem;
+}
+
+#restart {
+  border: 1px solid white;
+  border-radius: 6px;
+  padding: 12px;
+  font-size: 1.1rem;
+}
+
+#congratulations {
+  font-size: 1.3rem;
+  font-weight: bold;
 }
