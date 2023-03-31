@@ -34,18 +34,28 @@ form input {
 }
 
 .game_grid {
+  font-size: 2rem;
   display: grid;
-  gap: 15px;
   grid-template: 1fr 1fr 1fr / 1fr 1fr 1fr;
-  height: 200px;
+  height: 300px;
   place-content: center;
-  width: 50%;
+  width: 30%;
 }
 
 .game_grid div {
-  border: 1px solid black;
+  border-bottom: 1px solid black;
+  border-right: 1px solid black;
+  display: flex;
   align-items: center;
-  justify-content: stretch;
+  justify-content: center;
+}
+
+.game_grid div:nth-child(n+7) {
+  border-bottom: none;
+}
+
+.game_grid div:nth-child(3n) {
+  border-right: none;
 }
 
 .input_div {
