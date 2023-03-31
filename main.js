@@ -86,7 +86,7 @@ const gameBoard = (() => {
     }
   };
   const _AITurn = () => {
-    const empty = empty_cells();
+    const empty = _empty_cells();
     cell = empty[Math.floor(Math.random() * empty.length)];
     gameBoard.updateBoard(cell[0], cell[1], players[_currentPlayer].symbol);
     displayController.updateDisplay(
@@ -113,7 +113,6 @@ const gameBoard = (() => {
     } else {
       _currentPlayer = 0;
     }
-    console.log(_currentPlayer);
   };
   const _isOver = () => {
     return (
@@ -241,7 +240,6 @@ const displayController = (() => {
   const end_game = () => {
     if (gameBoard.isWon()) {
       const winner_symbol = gameBoard.isWon();
-      console.log(winner_symbol);
       const winner_name =
         gameBoard.players[0].symbol === winner_symbol
           ? gameBoard.players[0].name
