@@ -7,6 +7,17 @@ const gameBoard = (() => {
     currentPlayer = 0;
     _state = [[], [], []];
   };
+  const empty_cells = () => {
+    const cells = [];
+    for (let i = 0; i < 3; i++) {
+      for (let j = 0; j < 3; j++) {
+        if (_state[i][j] === undefined) {
+          cells.push([i, j]);
+        }
+      }
+    }
+    return cells;
+  };
   const _isFull = () => {
     const fullCellCount = _state.reduce(
       (length, row) => length + row.filter((x) => x !== undefined).length,
@@ -60,10 +71,30 @@ const gameBoard = (() => {
   const playTurn = (row, column) => {
     gameBoard.updateBoard(row, column, players[currentPlayer].symbol);
     displayController.updateDisplay(row, column, players[currentPlayer].symbol);
-    toggleCurrentPlayer();
+    const mode = displayController.getSelectionresult()["mode"];
     if (isOver()) {
       displayController.end_game();
+      return;
     }
+    toggleCurrentPlayer();
+    if (mode.toLowerCase() === "pvai" && currentPlayer === 1) {
+      _AITurn();
+    }
+  };
+  const _AITurn = () => {
+    const empty = empty_cells();
+    cell = empty[Math.floor(Math.random() * empty.length)];
+    gameBoard.updateBoard(cell[0], cell[1], players[currentPlayer].symbol);
+    displayController.updateDisplay(
+      cell[0],
+      cell[1],
+      players[currentPlayer].symbol
+    );
+    if (isOver()) {
+      displayController.end_game();
+      return;
+    }
+    toggleCurrentPlayer();
   };
   const updateBoard = (row, column, symbol) => {
     _state[row][column] = symbol;
@@ -78,6 +109,7 @@ const gameBoard = (() => {
     } else {
       currentPlayer = 0;
     }
+    console.log(currentPlayer);
   };
   const isOver = () => {
     return (
@@ -97,6 +129,7 @@ const gameBoard = (() => {
     playTurn,
     won,
     restart,
+    empty_cells,
   };
 })();
 
@@ -183,14 +216,17 @@ const displayController = (() => {
   };
 
   const _startGame = () => {
-    console.log("ran");
     [_selectionForm, _gameGrid].map((node) => node.classList.toggle("hidden"));
     const selection = getSelectionresult();
+    let player1, player2;
     if (selection.mode.toLowerCase() === "pvp") {
-      const player1 = player(selection.playerNames[0], "X");
-      const player2 = player(selection.playerNames[1], "O");
-      gameBoard.setPlayers(player1, player2);
+      player1 = player(selection.playerNames[0], "X");
+      player2 = player(selection.playerNames[1], "O");
+    } else {
+      player1 = player(selection.playerNames[0], "X");
+      player2 = player("AI", "O");
     }
+    gameBoard.setPlayers(player1, player2);
   };
 
   const getSelectionresult = () => {
@@ -203,11 +239,11 @@ const displayController = (() => {
   };
 
   const end_game = () => {
-    console.log("ran");
     if (gameBoard.won()) {
-      const winner_symbol = gameBoard.won;
+      const winner_symbol = gameBoard.won();
+      console.log(winner_symbol);
       const winner_name =
-        gameBoard.players[0].name === winner_symbol
+        gameBoard.players[0].symbol === winner_symbol
           ? gameBoard.players[0].name
           : gameBoard.players[1].name;
       _end_message.textContent = `${winner_name} wins!`;
@@ -218,7 +254,7 @@ const displayController = (() => {
     [...cells].forEach((cell) => {
       cell.removeEventListener("click", cellClickListener);
     });
-    _restart_btn.addEventListener("click", _restart);
+    _restart_btn.addEventListener("click", _restart, { once: true });
     _restart_btn.classList.toggle("hidden");
   };
 
